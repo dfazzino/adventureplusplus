@@ -1,0 +1,203 @@
+VARIABLES SECTION.
+
+new
+variable.name = test
+variable.value = guy
+add
+
+new
+variable.name = test2
+add
+
+END VARIABLES.
+
+
+
+EVENTS SECTION.
+
+new event as always
+	event.name = test4
+	event.logic = keydown down
+	event.actions = move guy 0,3
+add
+
+new event as playeraction (guy2 talkTo guy3)
+	event.name = test4
+	event.actions = start chat hasItem
+add
+
+new event as always
+	event.name = test
+	
+	event.logic = keydown right
+	event.actions = move guy 3,0 
+add
+	
+new event as always
+	event.name = test
+	event.logic = keydown left
+	event.actions = move guy -3,0 
+add
+
+new event as always
+	event.name = test
+	event.logic = keydown up
+	event.actions = move guy 0,-3 
+add
+
+END EVENTS.
+
+ENTITIES SECTION.
+new entity
+	entity.name = guy
+	entity.drawType = lovedraw
+	entity.cells = 1,1,2,1,5,1,.10
+	entity.zCalc = true
+	entity.xy = 0,0
+	entity.visible = true
+	entity.boxes + 0,0,200,200,collision
+
+add entity
+
+new entity
+	entity.name = guy2
+	entity.drawType = lovedraw
+	entity.cells = 1,1,2,1,5,1,.10
+	entity.zCalc = true
+	entity.xy = 500,0
+	entity.visible = true
+	entity.boxes + 0,0,30,30,collision
+
+add entity
+
+
+new entity
+	entity.name = guy3
+	entity.drawType = lovedraw
+	entity.cells = 1,1,2,1,5,1,.10
+	entity.zCalc = true
+	entity.xy = 100,200
+	entity.visible = true
+	entity.boxes + 0,0,30,30,collision
+	entity.actor = true
+add entity
+
+new entity
+	entity.name = guy4
+	entity.drawType = lovedraw
+	entity.cells = 1,1,2,1,5,1,.10
+	entity.zCalc = true
+	entity.xy = 400,400
+	entity.visible = true
+	entity.boxes + 0,0,200,30,collision
+add entity
+
+END ENTITIES.
+
+
+PLAYER ACTION BUTTONS SECTION.
+
+new button
+	button.name = talk
+	button.action = talkTo
+	button.boxes + -40,-40,40,40
+	button.drawType = lovedraw
+	button.visible = true
+	button.text = talk
+add button
+
+new button
+	button.name = push
+	button.action = push
+	button.boxes + 0,0,40,40
+	button.drawType = lovedraw
+	button.visible = true
+	button.text = push
+add button
+
+new button
+	button.name = pull
+	button.action = pull
+	button.boxes + -40,0,40,40
+	button.drawType = lovedraw
+	button.visible = true
+	button.text = pull
+add button
+
+END PLAYER ACTION BUTTONS.
+
+
+CHAT SECTION.
+
+new chatnode
+chatnode.id = 1
+chatnode.text = action would use this node to start a chat
+add chatnode
+
+new chatnode
+chatnode.id = 1_1
+chatnode.text = after chat system takes over, this will be the first option for chat id 1
+add chatnode
+
+new chatnode
+chatnode.id = 1_1_1
+chatnode.text = after 1_1 is selected on chat 1, this will be chat option 1 for chatnode 1_1.
+
+new chatnode
+chatnode.id = 1_2
+chatnode.text = this will be the second option for chat 1.
+
+--- 
+  chatnode ids can be as long as the conversation needs to be, don't have to be in order.
+  
+
+
+END CHAT.
+
+
+BACK UP EVENTS.
+new event as playerAction(entity1 get entity2)
+	event.name = test 
+	event.resetAfterRun = true
+	event.actions = start chat hasItem
+	event.logic = guy has item
+	event.falseactions = start chat noItem
+add event test
+
+new event as onClick
+	event.name = test 
+	event.resetAfterRun = true
+	event.logic = pointing at guy2 and guy has item
+	event.actions = start chat hasItem
+	event.falseactions = start chat noItem
+add event test
+
+new event as onClick
+	event.name = test 
+	event.resetAfterRun = true
+	event.logic = pointing at *
+	event.actions = set test pointingAt|name
+add event test
+
+new event as onClick
+	event.name = test2
+	event.resetAfterRun = true
+	event.logic = pointing at nothing
+	event.actions = set test2 mousePos 
+	event.falseactions = addInv item guy
+add timer test
+new event as onClick
+	event.name = test2
+	event.resetAfterRun = true
+	event.logic = pointing at nothing and keydown up
+	event.actions = set test2 mousePos then moveTo variable|test 300,300 / moveTo variable|test 100,500 / moveTo variable|test 20,205 / moveTo variable|test variable|test2
+	event.falseactions = set test2 mousePos then moveTo variable|test variable|test2
+add timer test
+
+new event as chataction
+	event.name = test3
+	event.resetAfterRun = true
+	event.actions = move variable|test 100,10
+	
+add timer test
+
