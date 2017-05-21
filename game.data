@@ -771,8 +771,6 @@ lã·uý<|¬9XØzÀðhì¿µcè€¨å,Ý¤öH¶1Š#ß9ÆWl£vÁ·2>bè#1pDGØQž³¥®¹ñËÛ–¿
 ¼Û¼û_ø^à½œÀÜÂæ®	¼µ‹kÙÔ8»mc˜ï(ßzs·v¿z!ðn?/_î^ ”Í/<xm°.?;ÊËÇ/ŽWzíŸñ[OàÝgü¦Öcã8/¼é²¯uØÛæ
 ¼ÛÍx·a»v”—KCGú™ÐAí¾µnn™³<o.ðº(eóç6ê6öëÇ.ž™4vÛÇ0Ž•³»ÛäoÉsùØ	¼—[
 ¼µûŒióç6PÎm;ýõò¿Êdì¶x÷;ËâyùþÁ˜¥m~áÒJèÝ6v6úëåË˜±ÛFàÝì,‹—3f@i›_hµÀ»ŸzÝ6ïþcgY¼œ1JÛüÂ4hÔ.¢GSgÁmô·3vÛx7æúñx÷Gc”tÕ‹í,÷å.ycW{ìj÷¥7ScgYÜo,öR½  PRõ  @IÕ;   %Uï   ”T½  PRõ  @IÕ;   %Uï   ”T½  PRõ  @IÕ;   %Uï   ”T½  PRõ  @IÕ;   %Uï   ”T½  PRõ  @IÕ;   %Uï   ”T½  PRõ  @IÕ;   %Uï   ”T½  PRõ  @IÕ;   %Uï   ”T½  PRõ  @IÕ;   %Uï   ”T½  PRõ  @IÕ;   %Uï   ”T½  PRõ  @IÕ;   %Uï   ”T½  PRõ  @IÕ;   %Uï   ”T½  PRõ  @IÕ;   %Uï   ”T½  PRõ  @Iÿ?ÐŽÇþði=ë    IEND®B`‚
-
-
 function showButtons(show)
 
 
@@ -794,13 +792,15 @@ end
 
 function loadButtons ()
 
+	if line ~= nil then line = line:strip() end
+
 	if  line == "PLAYER ACTION BUTTONS SECTION." then
 		local section = "entities"
 		logFile:write("Starting to add buttons!\n")
 		repeat
 			line = scriptFile:read() 
 			if line ~= nil then
-
+				line = line:strip()
 				if line:startsWith("END PLAYER ACTION BUTTONS") then break end
 				
 				local words = line:split(" ")
@@ -1599,33 +1599,36 @@ function initEntities ()
 	collisionBoxes = {}
 	actorEntity = {}
 	actorEntityNote = false
-	entity = {}
-	entity.name = "square2"
-	entity.boxes = {}
-	box = {}
-	box.xy = "280,140"
-	box.box = "100,100"
-	table.insert(entity.boxes, box)
-	entity.xy = "200,200"
-	entity.drawtype = "lovedraw"
---	entity.animate = anim8.newanimation(g('2-7',2), 0.10)
-	entity.zcalc = true
-	entity.z = 160
-	entity.visible = false
-	table.insert(entities, entity)	
+--	entity = {}
+--	entity.name = "square2"
+--	entity.boxes = {}
+--	box = {}
+--	box.xy = "280,140"
+--	box.box = "100,100"
+--	table.insert(entity.boxes, box)
+--	entity.xy = "200,200"
+--	entity.drawtype = "lovedraw"
+----	entity.animate = anim8.newanimation(g('2-7',2), 0.10)
+--	entity.zcalc = true
+--	entity.z = 160
+--	entity.visible = false
+--	table.insert(entities, entity)	
 	
 end
 
 
-function loadEntities ()
+function loadEntities (line)
 
+	if line ~= nil then line:strip() end
+		
 	if  line == "ENTITIES SECTION." then
 		local section = "entities"
 		logFile:write("Starting to add entities!\n")
 		repeat
 			line = scriptFile:read() 
+			
 			if line ~= nil then
-
+				line = line:strip()
 				if line:startsWith("END ENTITIES") then break end
 				
 				local words = line:split(" ")
@@ -2254,16 +2257,22 @@ function initPlayerEventsListeners()
 end
 
 
-function loadEvents()
+function loadEvents(line)
+	
+	if line ~= nil then line = line:strip() end
+	print(line)
 
 	if  line == "EVENTS SECTION." then
 		
 		local section = "events"
 		logFile:write("Starting to add events!\n")
 		repeat
-		line = scriptFile:read() 
-		if line ~= nil then
+		line = scriptFile:read()
 
+		if	line ~= nil then line = line:strip() end
+		print(line)
+		if line ~= nil then
+			
 			if line:startsWith("END EVENTS") then break end
 			
 			local words = line:split(" ")
@@ -2283,6 +2292,7 @@ function loadEvents()
 			
 				
 		end
+		print (line)
 		until line == nil
 
 	end
@@ -2545,18 +2555,15 @@ function checkChatEvent(eventID)
 endfunction OpenLogFile()    
 	
 	mydir = love.filesystem.getAppdataDirectory( )
-	print(mydir .. "/adventureplusplus/logfile.txt")
     logFile = io.open("logfile.txt", "w")
     logFile:write("Opening LogFile\n")
 
 end
 
 function OpenScriptFile()    
-	
-    scriptFile = io.open("scriptfile.txt", "r")
-    logFile:write("Opening LogFile\n")	
 
-	
+    logFile:write("Opening ScriptFile\n")	
+    scriptFile = io.open("scriptfile.txt", "r")
 end--
 -- flux
 --
@@ -2781,6 +2788,76 @@ local bound = {
 setmetatable(bound, flux)
 
 return boundOpening LogFile
+Opening ScriptFile
+Starting to add variables!
+Starting to add events!
+~~~event1  test4~~
+	always
+		if  keydown down [1]
+		 move guy 0,3
+------------------------------------------------------------------
+~~~event2  test4~~
+		 start chat hasItem
+------------------------------------------------------------------
+~~~event3  test~~
+	always
+		if  keydown right [2]
+		 move guy 3,0
+------------------------------------------------------------------
+~~~event4  test~~
+	always
+		if  keydown left [3]
+		 move guy -3,0
+------------------------------------------------------------------
+~~~event5  test~~
+	always
+		if  keydown up [4]
+		 move guy 0,-3
+------------------------------------------------------------------
+Starting to add entities!
+~~~entity1  guy~~
+	at 0,0
+	draw type: lovedraw
+	box 1: x 0 y 0 w 200 h 200
+
+------------------------------------------------------------------
+~~~entity2  guy2~~
+	at 500,0
+	draw type: lovedraw
+	box 1: x 500 y 0 w 30 h 30
+
+------------------------------------------------------------------
+~~~entity3  guy3~~
+	at 100,200
+	draw type: lovedraw
+	box 1: x 100 y 200 w 30 h 30
+
+------------------------------------------------------------------
+~~~entity4  guy4~~
+	at 400,400
+	draw type: lovedraw
+	box 1: x 400 y 400 w 200 h 30
+
+------------------------------------------------------------------
+Starting to add buttons!
+~~~entity5  none~~
+	at 0,0
+	draw type: lovedraw
+	box 1: x -40 y -40 w 40 h 40
+
+------------------------------------------------------------------
+~~~entity6  none~~
+	at 0,0
+	draw type: lovedraw
+	box 1: x 0 y 0 w 40 h 40
+
+------------------------------------------------------------------
+~~~entity7  none~~
+	at 0,0
+	draw type: lovedraw
+	box 1: x -40 y 0 w 40 h 40
+
+------------------------------------------------------------------
 logic = {}
 
 
@@ -3756,39 +3833,41 @@ function love.load()
 	love.screen.init() -- Mandatory : it create the main screen.
     screen = love.screen.getScreen()
 	OpenLogFile()    
-	 OpenScriptFile()   
+	OpenScriptFile()   
 	initLove2D()
 	initDraw()
 	initChat()
 	initChats()
 	testChatNodes()
-	-- initLogic()
-	--initEvents()
+--	 initLogic()
+--	initEvents()
 	initUIObject()	
-	-- initVariables()
+--	 initVariables()
 	initEntities()
 	logFile:flush()	
 --	nk.init()
-	 loadScript()
+	loadScript()
 	initActions()
 	setupChat()
 end
 
 
 function loadScript ()
-
 	repeat  
-		line = scriptFile:read() 
-		loadVariables() 
-		loadEvents()
-		loadEntities()
-		loadButtons()
+		line = scriptFile:read()
+
+		if line ~= nil then line = line:strip() end
+		loadVariables(line) 
+		loadEvents(line)
+		loadEntities(line)
+		loadButtons(line)
+		print (line)
 	until line == nil
 end
 
 
 function love.keypressed(key,scancode, isrepeat)
-	nk.keypressed(key, scancode, isrepeat)
+--	nk.keypressed(key, scancode, isrepeat)
 	UI.keypressed = key
         -- Pass event to the game
     
@@ -3799,16 +3878,17 @@ function love.keyreleased(key,scancode, isrepeat)
 -- nk.keyreleased(key, scancode)
     	UI.keyreleased = key
 		checkEvents("keyreleased")
-	if key == "f12" then love.system.openURL( "http://localhost:8000" ) end
+--	if key == "f12" then love.system.openURL( "http://localhost:8000" ) end
+	if key == "f4" then debug.debug() end
     
 end
 
 function love.wheelmoved(x, y)
---	nk.wheelmoved(x, y)
+	nk.wheelmoved(x, y)
     end
 
 function love.textinput(t)
---nk.textinput(text)
+nk.textinput(text)
 end
 
 function love.mousereleased(x, y, button, istouch)
@@ -4524,7 +4604,210 @@ Entities:
 	entity.boxes
 		add box = 
 			box.xy = location of xy, with entity.xy = 0,0
-	entity.speed = 200-300 or so.‰PNG
+	entity.speed = 200-300 or so.VARIABLES SECTION.
+
+new
+variable.name = test
+variable.value = guy
+add
+
+new
+variable.name = test2
+add
+
+END VARIABLES.
+
+
+
+EVENTS SECTION.
+
+new event as always
+	event.name = test4
+	event.logic = keydown down
+	event.actions = move guy 0,3
+add
+
+new event as playeraction (guy2 talkTo guy3)
+	event.name = test4
+	event.actions = start chat hasItem
+add
+
+new event as always
+	event.name = test
+	
+	event.logic = keydown right
+	event.actions = move guy 3,0 
+add
+	
+new event as always
+	event.name = test
+	event.logic = keydown left
+	event.actions = move guy -3,0 
+add
+
+new event as always
+	event.name = test
+	event.logic = keydown up
+	event.actions = move guy 0,-3 
+add
+
+END EVENTS.
+
+ENTITIES SECTION.
+new entity
+	entity.name = guy
+	entity.drawType = lovedraw
+	entity.cells = 1,1,2,1,5,1,.10
+	entity.zCalc = true
+	entity.xy = 0,0
+	entity.visible = true
+	entity.boxes + 0,0,200,200,collision
+
+add entity
+
+new entity
+	entity.name = guy2
+	entity.drawType = lovedraw
+	entity.cells = 1,1,2,1,5,1,.10
+	entity.zCalc = true
+	entity.xy = 500,0
+	entity.visible = true
+	entity.boxes + 0,0,30,30,collision
+
+add entity
+
+
+new entity
+	entity.name = guy3
+	entity.drawType = lovedraw
+	entity.cells = 1,1,2,1,5,1,.10
+	entity.zCalc = true
+	entity.xy = 100,200
+	entity.visible = true
+	entity.boxes + 0,0,30,30,collision
+	entity.actor = true
+add entity
+
+new entity
+	entity.name = guy4
+	entity.drawType = lovedraw
+	entity.cells = 1,1,2,1,5,1,.10
+	entity.zCalc = true
+	entity.xy = 400,400
+	entity.visible = true
+	entity.boxes + 0,0,200,30,collision
+add entity
+
+END ENTITIES.
+
+
+PLAYER ACTION BUTTONS SECTION.
+
+new button
+	button.name = talk
+	button.action = talkTo
+	button.boxes + -40,-40,40,40
+	button.drawType = lovedraw
+	button.visible = true
+	button.text = talk
+add button
+
+new button
+	button.name = push
+	button.action = push
+	button.boxes + 0,0,40,40
+	button.drawType = lovedraw
+	button.visible = true
+	button.text = push
+add button
+
+new button
+	button.name = pull
+	button.action = pull
+	button.boxes + -40,0,40,40
+	button.drawType = lovedraw
+	button.visible = true
+	button.text = pull
+add button
+
+END PLAYER ACTION BUTTONS.
+
+
+CHAT SECTION.
+
+new chatnode
+chatnode.id = 1
+chatnode.text = action would use this node to start a chat
+add chatnode
+
+new chatnode
+chatnode.id = 1_1
+chatnode.text = after chat system takes over, this will be the first option for chat id 1
+add chatnode
+
+new chatnode
+chatnode.id = 1_1_1
+chatnode.text = after 1_1 is selected on chat 1, this will be chat option 1 for chatnode 1_1.
+
+new chatnode
+chatnode.id = 1_2
+chatnode.text = this will be the second option for chat 1.
+
+--- 
+  chatnode ids can be as long as the conversation needs to be, don't have to be in order.
+  
+
+
+END CHAT.
+
+
+BACK UP EVENTS.
+new event as playerAction(entity1 get entity2)
+	event.name = test 
+	event.resetAfterRun = true
+	event.actions = start chat hasItem
+	event.logic = guy has item
+	event.falseactions = start chat noItem
+add event test
+
+new event as onClick
+	event.name = test 
+	event.resetAfterRun = true
+	event.logic = pointing at guy2 and guy has item
+	event.actions = start chat hasItem
+	event.falseactions = start chat noItem
+add event test
+
+new event as onClick
+	event.name = test 
+	event.resetAfterRun = true
+	event.logic = pointing at *
+	event.actions = set test pointingAt|name
+add event test
+
+new event as onClick
+	event.name = test2
+	event.resetAfterRun = true
+	event.logic = pointing at nothing
+	event.actions = set test2 mousePos 
+	event.falseactions = addInv item guy
+add timer test
+new event as onClick
+	event.name = test2
+	event.resetAfterRun = true
+	event.logic = pointing at nothing and keydown up
+	event.actions = set test2 mousePos then moveTo variable|test 300,300 / moveTo variable|test 100,500 / moveTo variable|test 20,205 / moveTo variable|test variable|test2
+	event.falseactions = set test2 mousePos then moveTo variable|test variable|test2
+add timer test
+
+new event as chataction
+	event.name = test3
+	event.resetAfterRun = true
+	event.actions = move variable|test 100,10
+	
+add timer test
+
+‰PNG
 
    IHDR  Ê  r   ·Ó7   sRGB ®Îé   gAMA  ±üa   PLTE      $@'~8 x P  x | @  E  P  ~MHHH 0ˆ6uŽp(ø ¸   ÀX øx]ÔXøX@€˜uÔÂ¸  ¸( ¨ U°(`ˆXØ8ø  ÷6eøx øpø@p÷e]øph˜høå ¨è °Ô—.Ø 8øˆ ø(ÀøøÀ ÷÷ øÀp÷ÔeøØpŸŸ€ØÈØØ¨øÈ˜÷Ë¹øø˜øÐÀ÷÷÷øøøÿÿþÿÿÿ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         õ¿Á–   	pHYs    ÒÝ~ü   tIMEß
 2"Ï
@@ -5584,6 +5867,7 @@ function drawInformation()
 
 
 	love.graphics.print(math.floor(UI.mousex  / 30) .. "," .. math.floor(UI.mousey / 30), 500, 500)
+--	love.graphics.print(line, 0, 500)
 	value, entity = getPointingAt("name")
 	if value ~= "" then 
 		h = 1
@@ -5635,13 +5919,20 @@ function initVariables ()
 end
 
 
-function loadVariables ()
-
+function loadVariables (line)
+	line = line or ""
+	line = line:strip()
 	if  line == "VARIABLES SECTION." then
+		print("," .. line .. ",")
+
 		local section = "events"
 		logFile:write("Starting to add variables!\n")
 		repeat
-			line = scriptFile:read() 
+			
+			line = scriptFile:read()
+			line = line or ""
+			line = line:strip()
+			print(line)
 			if line ~= nil then
 
 				if line:startsWith("END VARIABLES.") then break end
@@ -13917,206 +14208,4 @@ end)context('Module Path', function()
 		
   end)
 
-end)VARIABLES SECTION.
-
-new
-variable.name = test
-variable.value = guy
-add
-
-new
-variable.name = test2
-add
-
-END VARIABLES.
-
-
-
-EVENTS SECTION.
-
-new event as always
-	event.name = test4
-	event.logic = keydown down
-	event.actions = move guy 0,3
-add
-
-new event as playeraction (guy2 talkTo guy3)
-	event.name = test4
-	event.actions = start chat hasItem
-add
-
-new event as always
-	event.name = test
-	
-	event.logic = keydown right
-	event.actions = move guy 3,0 
-add
-	
-new event as always
-	event.name = test
-	event.logic = keydown left
-	event.actions = move guy -3,0 
-add
-
-new event as always
-	event.name = test
-	event.logic = keydown up
-	event.actions = move guy 0,-3 
-add
-
-END EVENTS.
-
-ENTITIES SECTION.
-new entity
-	entity.name = guy
-	entity.drawType = lovedraw
-	entity.cells = 1,1,2,1,5,1,.10
-	entity.zCalc = true
-	entity.xy = 0,0
-	entity.visible = true
-	entity.boxes + 0,0,200,200,collision
-
-add entity
-
-new entity
-	entity.name = guy2
-	entity.drawType = lovedraw
-	entity.cells = 1,1,2,1,5,1,.10
-	entity.zCalc = true
-	entity.xy = 500,0
-	entity.visible = true
-	entity.boxes + 0,0,30,30,collision
-
-add entity
-
-
-new entity
-	entity.name = guy3
-	entity.drawType = lovedraw
-	entity.cells = 1,1,2,1,5,1,.10
-	entity.zCalc = true
-	entity.xy = 100,200
-	entity.visible = true
-	entity.boxes + 0,0,30,30,collision
-	entity.actor = true
-add entity
-
-new entity
-	entity.name = guy4
-	entity.drawType = lovedraw
-	entity.cells = 1,1,2,1,5,1,.10
-	entity.zCalc = true
-	entity.xy = 400,400
-	entity.visible = true
-	entity.boxes + 0,0,200,30,collision
-add entity
-
-END ENTITIES.
-
-
-PLAYER ACTION BUTTONS SECTION.
-
-new button
-	button.name = talk
-	button.action = talkTo
-	button.boxes + -40,-40,40,40
-	button.drawType = lovedraw
-	button.visible = true
-	button.text = talk
-add button
-
-new button
-	button.name = push
-	button.action = push
-	button.boxes + 0,0,40,40
-	button.drawType = lovedraw
-	button.visible = true
-	button.text = push
-add button
-
-new button
-	button.name = pull
-	button.action = pull
-	button.boxes + -40,0,40,40
-	button.drawType = lovedraw
-	button.visible = true
-	button.text = pull
-add button
-
-END PLAYER ACTION BUTTONS.
-
-
-CHAT SECTION.
-
-new chatnode
-chatnode.id = 1
-chatnode.text = action would use this node to start a chat
-add chatnode
-
-new chatnode
-chatnode.id = 1_1
-chatnode.text = after chat system takes over, this will be the first option for chat id 1
-add chatnode
-
-new chatnode
-chatnode.id = 1_1_1
-chatnode.text = after 1_1 is selected on chat 1, this will be chat option 1 for chatnode 1_1.
-
-new chatnode
-chatnode.id = 1_2
-chatnode.text = this will be the second option for chat 1.
-
---- 
-  chatnode ids can be as long as the conversation needs to be, don't have to be in order.
-  
-
-
-END CHAT.
-
-
-BACK UP EVENTS.
-new event as playerAction(entity1 get entity2)
-	event.name = test 
-	event.resetAfterRun = true
-	event.actions = start chat hasItem
-	event.logic = guy has item
-	event.falseactions = start chat noItem
-add event test
-
-new event as onClick
-	event.name = test 
-	event.resetAfterRun = true
-	event.logic = pointing at guy2 and guy has item
-	event.actions = start chat hasItem
-	event.falseactions = start chat noItem
-add event test
-
-new event as onClick
-	event.name = test 
-	event.resetAfterRun = true
-	event.logic = pointing at *
-	event.actions = set test pointingAt|name
-add event test
-
-new event as onClick
-	event.name = test2
-	event.resetAfterRun = true
-	event.logic = pointing at nothing
-	event.actions = set test2 mousePos 
-	event.falseactions = addInv item guy
-add timer test
-new event as onClick
-	event.name = test2
-	event.resetAfterRun = true
-	event.logic = pointing at nothing and keydown up
-	event.actions = set test2 mousePos then moveTo variable|test 300,300 / moveTo variable|test 100,500 / moveTo variable|test 20,205 / moveTo variable|test variable|test2
-	event.falseactions = set test2 mousePos then moveTo variable|test variable|test2
-add timer test
-
-new event as chataction
-	event.name = test3
-	event.resetAfterRun = true
-	event.actions = move variable|test 100,10
-	
-add timer test
-
+end)
